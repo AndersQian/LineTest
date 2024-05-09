@@ -96,7 +96,7 @@ def welcome(event):
     gid = event.source.group_id
     profile = line_bot_api.get_group_member_profile(gid, uid)
     name = profile.display_name
-    message = TextSendMessage(text=f'{name}歡迎加入')
+    message = TextSendMessage(text=f'{name}歡迎加入AAAAAAAA')
     line_bot_api.reply_message(event.reply_token, message)
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
