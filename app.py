@@ -54,6 +54,18 @@ def handle_message(event):
         # 回覆訊息
         reply_msg = f"您加入好友的時間是：{join_time}"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_msg))
+    elif msg =="我是誰":
+        profile = line_bot_api.get_profile(event.source.user_id)
+        user_name = profile.display_name
+        user_id=profile.user_id
+        picture_url=profile.picture_url
+        status_message=profile.status_message
+
+        # 回覆訊息
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"Hi, {user_name}, 你好!"))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"你的userID, {user_id}"))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"照片網址, {picture_url}"))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"狀態訊息, {status_message}"))
     else:
         # 回覆訊息
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=msg))
