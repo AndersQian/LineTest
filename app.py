@@ -38,7 +38,15 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
-    if msg == "我們甚麼時候加好友的":
+    if msg == "你好友有誰":
+        # 獲取所有好友資訊
+        friends = line_bot_api.get_friends()
+        # 打印所有好友
+        for friend in friends:
+            print(friend.display_name, friend.user_id)
+        # 回覆訊息
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="好友列表已打印到後台日誌中"))
+    elif msg == "我們甚麼時候加好友的":
         # 呼叫 API
         response = requests.get(API_URL)
         data = response.json()
@@ -49,6 +57,7 @@ def handle_message(event):
     else:
         # 回覆訊息
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=msg))
+
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
