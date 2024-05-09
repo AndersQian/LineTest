@@ -74,7 +74,8 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
     elif msg =="Follow人數":
         followers = line_bot_api.get_followers_ids()
-        print(followers)
+        print(followers.user_ids)
+        print(followers..next)
         reply_message = (
             f"Follow的人有誰,{followers}!"
         )       
