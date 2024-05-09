@@ -6,18 +6,17 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import *
+import requests
 
 app = Flask(__name__)
-
-
-#======python的函數庫==========
-import os
-#======python的函數庫==========
 
 # Channel Access Token
 line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN'))
 # Channel Secret
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
+
+# API URL
+API_URL = "your_api_url_here"
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -38,9 +37,17 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
-    # 回覆訊息
-    reply_msg = f"{msg}(TEST)"
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_msg))
+    if msg == "我們甚麼時候加好友的":
+        # 呼叫 API
+        response = requests.get(API_URL)
+        data = response.json()
+        join_time = data.get("join_time", "Unknown")
+        # 回覆訊息
+        reply_msg = f"您加入好友的時間是：{join_time}"
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_msg))
+    else:
+        # 回覆訊息
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=msg))
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
