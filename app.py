@@ -39,13 +39,8 @@ def callback():
 def handle_message(event):
     msg = event.message.text
     if msg == "你好友有誰":
-        # 獲取所有好友資訊
-        friends = line_bot_api.get_friends()
-        # 打印所有好友
-        for friend in friends:
-            print(friend.display_name, friend.user_id)
         # 回覆訊息
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="好友列表已打印到後台日誌中"))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="才不告訴你哩 哩"))
     elif msg == "我們甚麼時候加好友的":
         # 呼叫 API
         response = requests.get(API_URL)
@@ -60,12 +55,15 @@ def handle_message(event):
         user_id=profile.user_id
         picture_url=profile.picture_url
         status_message=profile.status_message
+        reply_message = (
+            f"Hi, {user_name}, 你好!\n"
+            f"你的 userID: {user_id}\n"
+            f"照片网址: {picture_url}\n"
+            f"状态讯息: {status_message}"
+        )
 
         # 回覆訊息
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"Hi, {user_name}, 你好!"))
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"你的userID, {user_id}"))
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"照片網址, {picture_url}"))
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"狀態訊息, {status_message}"))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
     else:
         # 回覆訊息
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=msg))
