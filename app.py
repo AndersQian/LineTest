@@ -65,7 +65,7 @@ def handle_message(event):
         # 回覆訊息
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
     elif msg =="多少好友":
-        insight = line_bot_api.get_insight_followers('20240509')
+        insight = line_bot_api.get_insight_followers()
         print(insight)
         print(insight.followers)
         reply_message = (
