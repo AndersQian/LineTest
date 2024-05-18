@@ -19,6 +19,12 @@ handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 # API URL
 API_URL = "your_api_url_here"
 
+
+
+@app.route('/')
+def hello_world():
+    return 'Hello World'
+
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -101,3 +107,6 @@ def welcome(event):
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
+
+
+
